@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="widht=device=widht, initial-scale=1.0" />
+    <title>FitFocus - Smart Trainer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>FitFocus</h1>
+      <div class="filters">
+        <input type="text" id="search" placeholder="Busca un ejercicio..." />
+        <select id="muscle-filter">
+          <option value="all">Todos los músculos</option>
+          <option value="pecho">Pecho</option>
+          <option value="pierna">Pierna</option>
+        </select>
+      </div>
+    </header>
+
+    <main id="exercise-container"></main>
+
+    <script src="main.js" type="module"></script>
+    <footer></footer>
+  </body>
+</html>

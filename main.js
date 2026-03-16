@@ -35,7 +35,7 @@ async function cargarEjercicios() {
     .map((item) => {
       return `
       <div class="card">
-      <h3>$item.title.toUpperCase{}</h3>
+      <h3>${item.title.toUpperCase()}</h3>
       <p>Id del ejercicio: ${item.id}</p>
       </div>
       `;

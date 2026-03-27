@@ -1,46 +1,41 @@
-// 1. Nuestros datos (Simulando una API de Fitness)
-const misEjercicios = [
-  { nombre: "Flexiones", musculo: "Pecho" },
-  { nombre: "Sentadillas", musculo: "Pierna" },
-  { nombre: "Dominadas", musculo: "Espalda" },
+// 1. Nuestros data (Simulando una API de Fitness)
+const exercises = [
+  { id: 1, name: "Push ups", muscle: "Chest" },
+  { id: 2, name: "Squads", muscle: "Leg" },
+  { id: 3, name: "Back extension", muscle: "Back" },
 ];
 
-// 2. Buscamos el "hueco" en el HTML
-const contenedor = document.getElementById("exercise-container");
-
-// 3. Transformamos y pegamos (Todo en una línea, nivel Pro)
-contenedor.innerHTML = misEjercicios
-  .map(
-    (ex) => `<div class="card"><h3>${ex.nombre}</h3><p>${ex.musculo}</p></div>`,
-  )
-  .join("");
-
-// Llamada a nuestra API
-
-async function cargarEjercicios() {
-  console.log("Fetching data..."); // Aviso
-
-  // Va a por los datos
-  const respuesta = await fetch(
-    "https://jsonplaceholder.typicode.com/posts?_limit=5",
-  );
-
-  // Abrimos el paquete (convertimos a JSON)
-  const datos = await respuesta.json();
-
-  // Pintar en pantalla
-  const contenedor = document.getElementById("exercise-container");
-
-  contenedor.innerHTML = datos
-    .map((item) => {
-      return `
-      <div class="card">
-      <h3>${item.title.toUpperCase()}</h3>
-      <p>Id del ejercicio: ${item.id}</p>
-      </div>
-      `;
-    })
+// Funcion solo para pintar
+function displayData(lista) {
+  // Buscamos el "hueco" en el HTML
+  const container = document.getElementById("exercise-container");
+  // Transformamos y pegamos
+  container.innerHTML = lista
+    .map(
+      (item) => `
+    <div class="card">
+      <h3>${item.name || item.title.toUpperCase()}</h3>
+      <p>Target: ${item.muscle || "Exercise ID: " + item.id}</p>
+    </div>
+  `,
+    )
     .join("");
 }
 
-cargarEjercicios();
+// ESTA FUNCIÓN SOLO CONSIGUE DATOS
+async function loadExternalExercises() {
+  try {
+    const response = await fetch(
+      "https://jsonplaceholder.typicode.com/posts?_limit=5",
+    );
+    if (!response.ok) throw new Error("Network error");
+
+    const data = await response.json();
+    displayData(data); // <--- Aquí le pasamos el testigo a la "pintora"
+  } catch (error) {
+    document.getElementById("exercise-container").innerHTML =
+      `<p style="color: red;">${error.message}</p>`;
+  }
+}
+
+displayData(exercises);

@@ -5,7 +5,7 @@ const exercises = [
   { id: 3, name: "Back extension", muscle: "back" },
 ];
 
-// Funcion solo para pintar (plantilla)
+// FUNCION SOLO PARA PINTAR
 function displayData(lista) {
   // Buscamos el "hueco" en el HTML
   const container = document.getElementById("exercise-container");
@@ -38,6 +38,8 @@ async function loadExternalExercises() {
   }
 }
 
+// FILTRO SELECTOR SEGUN EXERCISE
+
 const filterSelect = document.getElementById("muscle-filter");
 
 filterSelect.addEventListener("change", (e) => {
@@ -52,6 +54,18 @@ filterSelect.addEventListener("change", (e) => {
 
     displayData(filteredList);
   }
+});
+
+// BUSCADOR SEGUN TEXTO ESCRITO
+
+const searchInput = document.getElementById("search");
+
+searchInput.addEventListener("input", (e) => {
+  const text = e.target.value.toLowerCase(); // lo que escribe el usuario
+  const filtered = exercises.filter((ex) =>
+    ex.name.toLowerCase().includes(text),
+  );
+  displayData(filtered);
 });
 
 displayData(exercises);

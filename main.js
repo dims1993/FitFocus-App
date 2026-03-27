@@ -40,32 +40,29 @@ async function loadExternalExercises() {
 
 // FILTRO SELECTOR SEGUN EXERCISE
 
-const filterSelect = document.getElementById("muscle-filter");
-
-filterSelect.addEventListener("change", (e) => {
-  const selectedMuscle = e.target.value;
-
-  if (selectedMuscle === "all") {
-    displayData(exercises);
-  } else {
-    const filteredList = exercises.filter(
-      (ex) => ex.muscle.toLowerCase() === selectedMuscle,
-    );
-
-    displayData(filteredList);
-  }
-});
+filterSelect.addEventListener("change", applyFilters);
 
 // BUSCADOR SEGUN TEXTO ESCRITO
 
-const searchInput = document.getElementById("search");
+searchInput.addEventListener("input", applyFilters);
 
-searchInput.addEventListener("input", (e) => {
-  const text = e.target.value.toLowerCase(); // lo que escribe el usuario
-  const filtered = exercises.filter((ex) =>
-    ex.name.toLowerCase().includes(text),
-  );
+// FUNCION CENTRALIZADA PARA FILTRAR A TRAVES DEL BUSCADOR Y DEL SELECTOR
+function applyFilters() {
+  const text = document.getElementById("search").value.toLowerCase();
+  const muscle = document.getElementById("muscle-filter").value.toLowerCase();
+
+  // Aplicamos ambos filtros a la vez sobre el array original
+  const filtered = exercises.filter((ex) => {
+    // 1 regla, coincide el nombre?
+    const matchesName = ex.name.toLowerCase().includes(text);
+    // 2 regla, coincide el musculo?
+    const matchesMuscle =
+      muscle === "all" || ex.muscle.toLowerCase() === muscle;
+    // solo si el ejercicio cumple ambas reglas (AND)
+    return matchesName && matchesMuscle;
+  });
+  // pintamos resultado
   displayData(filtered);
-});
+}
 
 displayData(exercises);

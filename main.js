@@ -1,11 +1,11 @@
 // 1. Nuestros data (Simulando una API de Fitness)
 const exercises = [
-  { id: 1, name: "Push ups", muscle: "Chest" },
-  { id: 2, name: "Squads", muscle: "Leg" },
-  { id: 3, name: "Back extension", muscle: "Back" },
+  { id: 1, name: "Push ups", muscle: "chest" },
+  { id: 2, name: "Squads", muscle: "leg" },
+  { id: 3, name: "Back extension", muscle: "back" },
 ];
 
-// Funcion solo para pintar
+// Funcion solo para pintar (plantilla)
 function displayData(lista) {
   // Buscamos el "hueco" en el HTML
   const container = document.getElementById("exercise-container");
@@ -37,5 +37,21 @@ async function loadExternalExercises() {
       `<p style="color: red;">${error.message}</p>`;
   }
 }
+
+const filterSelect = document.getElementById("muscle-filter");
+
+filterSelect.addEventListener("change", (e) => {
+  const selectedMuscle = e.target.value;
+
+  if (selectedMuscle === "all") {
+    displayData(exercises);
+  } else {
+    const filteredList = exercises.filter(
+      (ex) => ex.muscle.toLowerCase() === selectedMuscle,
+    );
+
+    displayData(filteredList);
+  }
+});
 
 displayData(exercises);
